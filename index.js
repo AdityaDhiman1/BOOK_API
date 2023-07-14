@@ -5,6 +5,7 @@ const usersRoute = require('./routes/user')
 const app = express()
 const bodyparser = require('body-parser')
 const mongoose = require('mongoose');
+const PORT = process.env.PORT || 8080;
 
 mongoose.connect(process.env.MONGODB_URL).then(() => {
     console.log('Connected to MongoDB......')
@@ -25,6 +26,6 @@ app.use((req, res, next) => {
 })
 
 // module.exports = app
-app.listen(8080, function () {
+app.listen(PORT, function () {
     console.log('listening on port')
   })
