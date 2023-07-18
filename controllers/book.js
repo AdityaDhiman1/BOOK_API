@@ -4,7 +4,6 @@ const Book = require("../models/book")
 const bookgetController = (req, res, next) => {
     Book.find().then((result) => {
         res.status(200).send(result)
-        console.log(result)
     }).catch((err) => {
          console.log("This is controller ",err.message)
      })
