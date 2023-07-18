@@ -4,14 +4,11 @@ const booksRoute = require('./routes/book')
 const usersRoute = require('./routes/user')
 const app = express()
 const bodyparser = require('body-parser')
-const mongoose = require('mongoose');
+const connectDB = require('./DB/connection');
 const PORT = process.env.PORT || 8080;
 
-mongoose.connect(process.env.MONGODB_URL).then(() => {
-    console.log('Connected to MongoDB......')
-}).catch((err) => {
-    console.log('not connected',err.message)
-})
+
+
 app.use(bodyparser.urlencoded({ extended :false}))
 app.use(bodyparser.json())
 app.use('/books',booksRoute)
@@ -25,7 +22,17 @@ app.use((req, res, next) => {
     })
 })
 
-// module.exports = app
-app.listen(PORT, function () {
-    console.log('listening on port')
-  })
+
+const server = async () => { 
+    try {
+        app.listen(PORT, () => {
+            console.log(`listening on port ${PORT}`)
+        })
+        await connectDB(process.env.MONGODB_URL);
+    } catch (error) {
+        console.error(error.message)
+        
+    }
+}
+
+server();
